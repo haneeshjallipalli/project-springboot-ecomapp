@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                git 'https://github.com/HaneeshDevops/ecomapp.git'
+                git 'https://github.com/haneeshjallipalli/project-springboot-ecomapp.git'
                 sh 'mvn clean install -DskipTests'
             }
         }
@@ -20,10 +20,10 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    sh 'docker rm -f $(docker ps -aq)'
-                    sh 'docker rmi -f $(docker images -aq)'
+                    sh 'docker rm -f $(docker ps -aq) || true'
+                    sh 'docker rmi -f $(docker images -aq) || true'
                     sh "docker build -t ecomapp:${version} ."
-                    sh "docker run -d -p 8080:8080 ecomapp:${version}"
+                    sh "docker run -d -p 8081:8080 ecomapp:${version}"
                 }
             }
         }
